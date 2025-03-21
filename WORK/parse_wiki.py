@@ -25,7 +25,7 @@ def get_title_from_wikidata(name):
     results = sparql_request(name).get("results", {}).get("bindings", [])
 
     if not results:
-        return f"Query '{name}' not found in Wikidata."
+        return
 
     qid = results[0]["item"]["value"].split("/")[-1]
 
