@@ -1,0 +1,38 @@
+# Папка виртуального окружения
+venv/
+.env
+
+# Папки и файлы, создаваемые IDE
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# Папки и файлы, создаваемые системами сборки
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+
+# Логи
+*.log
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+
+# Файлы конфигурации
+*.ini
+*.cfg
+*.json
+*.yaml
+*.yml
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Pytest
+.cache
