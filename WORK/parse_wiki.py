@@ -1,5 +1,6 @@
 import requests
 import sys
+import pymorphy3.analyzer
 
 
 def sparql_request(name):
@@ -86,9 +87,11 @@ def main():
         print("No concept given.\nUsage: python parse_wiki.py [concept]")
         return
 
-    article_name = args[1]
+    morph = pymorphy3.MorphAnalyzer()
 
-    print(article_name)
+    article_name = morph.parse(args[1].lower())[0].normal_form
+
+    print(article_name, '\n')
 
     wikipedia_summary = get_wikipedia_summary(article_name)
 
