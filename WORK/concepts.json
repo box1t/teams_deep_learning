@@ -1,0 +1,200 @@
+{
+    "concepts": [
+        {
+            "title": "Абстрактное мышление",
+            "file": "abstract_thinking.md"
+        },
+        {
+            "title": "Юность",
+            "file": "adolescence.md"
+        },
+        {
+            "title": "Половое созревание",
+            "file": "puberty.md"
+        },
+        {
+            "title": "Противоречие",
+            "file": "contradiction.md"
+        },
+        {
+            "title": "Отношения",
+            "file": "relationships.md"
+        },
+        {
+            "title": "Страх",
+            "file": "fear.md"
+        },
+        {
+            "title": "Самосознание",
+            "file": "self_awareness.md"
+        },
+        {
+            "title": "Межличностные отношения",
+            "file": "interpersonal_relationships.md"
+        },
+        {
+            "title": "Субкультура",
+            "file": "subculture.md"
+        },
+        {
+            "title": "Моральная ценность",
+            "file": "moral_value.md"
+        },
+        {
+            "title": "Подростковый кризис",
+            "file": "teen_mental_health_crisis.md"
+        },
+        {
+            "title": "Личность",
+            "file": "personality.md"
+        },
+        {
+            "title": "Университет",
+            "file": "university.md"
+        },
+        {
+            "title": "Профессия",
+            "file": "profession.md"
+        },
+        {
+            "title": "Познание",
+            "file": "cognition.md"
+        },
+        {
+            "title": "Координация движений",
+            "file": "coordination_of_movements.md"
+        },
+        {
+            "title": "Плач",
+            "file": "cry.md"
+        },
+        {
+            "title": "Культура",
+            "file": "culture.md"
+        },
+        {
+            "title": "Дисциплина",
+            "file": "discipline.md"
+        },
+        {
+            "title": "Образование",
+            "file": "education.md"
+        },
+        {
+            "title": "Эмоции",
+            "file": "emotion.md"
+        },
+        {
+            "title": "Этикет",
+            "file": "etiquette.md"
+        },
+        {
+            "title": "Опытное знание",
+            "file": "experienced_knowledge.md"
+        },
+        {
+            "title": "Семья",
+            "file": "family.md"
+        },
+        {
+            "title": "Игра",
+            "file": "game.md"
+        },
+        {
+            "title": "Игровая активность",
+            "file": "gaming_activity.md"
+        },
+        {
+            "title": "Рост",
+            "file": "height.md"
+        },
+        {
+            "title": "Самостоятельность",
+            "file": "independence.md"
+        },
+        {
+            "title": "Младенчество",
+            "file": "infancy.md"
+        },
+        {
+            "title": "Детский сад",
+            "file": "kindergarten.md"
+        },
+        {
+            "title": "Продолжительность жизни",
+            "file": "life_longevity.md"
+        },
+        {
+            "title": "Зрелость",
+            "file": "maturity.md"
+        },
+        {
+            "title": "Мышление",
+            "file": "mind.md"
+        },
+        {
+            "title": "Новорожденность",
+            "file": "newborn.md"
+        },
+        {
+            "title": "Старость",
+            "file": "old_age.md"
+        },
+        {
+            "title": "Родители",
+            "file": "parents.md"
+        },
+        {
+            "title": "Пенсия",
+            "file": "pension.md"
+        },
+        {
+            "title": "Физическое развитие",
+            "file": "physical_development.md"
+        },
+        {
+            "title": "Факторы риска",
+            "file": "risk_factors.md"
+        },
+        {
+            "title": "Школьный возраст",
+            "file": "school_ages.md"
+        },
+        {
+            "title": "Органы чувств",
+            "file": "sensory_organs.md"
+        },
+        {
+            "title": "Социальные навыки",
+            "file": "social_skill.md"
+        },
+        {
+            "title": "Социализация",
+            "file": "sociolization.md"
+        },
+        {
+            "title": "Развитие речи",
+            "file": "speech_development.md"
+        },
+        {
+            "title": "Спорт",
+            "file": "sport.md"
+        },
+        {
+            "title": "Традиции",
+            "file": "traditions.md"
+        },
+        {
+            "title": "Обучение",
+            "file": "training.md"
+        },
+        {
+            "title": "Воля",
+            "file": "will.md"
+        },
+        {
+            "title": "Рабочая деятельность",
+            "file": "work_activity.md"
+        }
+    ]
+}
