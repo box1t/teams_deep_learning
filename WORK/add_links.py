@@ -1,145 +1,54 @@
-import pymorphy3
 import os
+import json
+import re
+from typing import Dict
+from pymorphy3 import MorphAnalyzer
 
-# Путь к директории
-PATH = 'pages'
-# Если есть такой файл, то имена берутся оттуда, иначе берутся имена файлов
-# Это нужно для создания приоритетов названий файлвв, если одно является частью другого
-LINKS = 'names.md'
+PAGES_DIR = '../KIDBOOK_LIFE_STAGES/'
+CONCEPTS_PATH = 'concepts.json'
+morph = MorphAnalyzer()
 
-# Алгоритм Ахо-Корасик
-class TrieNode:
-    def __init__(self):
-        self.children = {}
-        self.output = []
-        self.fail = None
-
-def build_automaton(keywords):
-    root = TrieNode()
-
-    for keyword in keywords:
-        node = root
-        for char in keyword:
-            node = node.children.setdefault(char, TrieNode())
-        node.output.append(keyword)
-
-    queue = []
-    for node in root.children.values():
-        queue.append(node)
-        node.fail = root
-
-    while queue:
-        current_node = queue.pop(0)
-        for key, next_node in current_node.children.items():
-            queue.append(next_node)
-            fail_node = current_node.fail
-            while fail_node and key not in fail_node.children:
-                fail_node = fail_node.fail
-            next_node.fail = fail_node.children[key] if fail_node else root
-            next_node.output += next_node.fail.output
-
-    return root
-
-
-def search_text(text, keywords, patterns):
-    root = build_automaton(keywords)
-    result = {keywords[i]: [patterns[i]] for i in range(len(keywords))}
-
-    current_node = root
-    for i, char in enumerate(text):
-        while current_node and char not in current_node.children:
-            current_node = current_node.fail
-
-        if not current_node:
-            current_node = root
-            continue
-
-        current_node = current_node.children[char]
-        for keyword in current_node.output:
-            result[keyword].append(i - len(keyword) + 1)
-
-    return result
-
-def get_pages(folder):
+def get_pages(folder: str) -> Dict[str, str]:
     pages = {}
     for filename in os.listdir(folder):
-        if filename.endswith(".md"):
-            path = os.path.join(folder, filename)
-            with open(path, "r") as f:
-                text = f.read()
-                pages[filename] = text
+        path = os.path.join(folder, filename)
+        with open(path, 'r') as f:
+            pages[filename] = f.read()
     return pages
 
-def get_names(pages):
-    names = []
-    for name, body in pages.items():
-        names.append(name)
-    return names
+def get_concepts(path: str) -> Dict[str, str]:
+    concepts = {}
+    with open(path, 'r') as f:
+        d = json.load(f)
+        for file in d['concepts']:
+            concepts[normalize(file['title'].lower())] = file['file']
+    return concepts
 
-def add_links(pages, patterns):
+def normalize(word: str) -> str:
+    return morph.parse(word)[0].normal_form
+
+def add_links(pages: Dict[str, str], concepts: Dict[str, str]) -> Dict[str, str]:
     new_pages = {}
-
-    morph = pymorphy3.MorphAnalyzer()
-
-    parsed_patterns = []
-    for pattern in patterns:
-        parsed_patterns.append(' '.join([morph.parse(word)[0].normal_form for word in pattern.split(' ')]))
-
+    found_words = []
     for filename, text in pages.items():
-        parsed_text = [morph.parse(word.strip('(),.-#:" '))[0].normal_form for word in text.split(' ')]
-
-        new_text = ' '.join(parsed_text)
-
-        # Первае значение это паттерн в изначальной форме
-        result = search_text(new_text, parsed_patterns, patterns)
-
-        found = {}
-
-        for key, pos in result.items():
-            found[key] = [pos[0]]
-            for i in range(1, len(pos)):
-                cnt = 0
-                for i in range(pos[i]):
-                    if new_text[i] == ' ':
-                        cnt += 1
-                found[key].append(cnt)
-
-        words = [word for word in text.split()]
-
-        for key, pos in found.items():
-            word_cnt = len(key.split())
-            for j in range(1, len(pos)):
-                if morph.parse(words[pos[j]].strip('(),.-#:" '))[0].normal_form == key.split()[0]:
-                    for i in range(word_cnt):
-                        if i == 0:
-                            words[pos[j]] = '[[' + ' '.join([words[pos[j] + i] for i in range(word_cnt)]) + '|' + pos[0] + ']]'
-                        else:
-                            words[pos[j] + i] = ' '
-
-
-        words = list(filter(lambda x: x != ' ', words))
-
-        res_text = ' '.join(words)
-        new_pages[filename] = res_text
-
+        words = re.findall(r'\b\w+\b', text)
+        for word in words:
+            normal_word = normalize(word.lower())
+            if normal_word in concepts and concepts[normal_word] != filename and normal_word not in found_words:
+                print(filename, normal_word)
+                text = re.sub(rf'\b{re.escape(word)}\b', f"[{word}]({concepts[normal_word]})", text)
+                found_words.append(normal_word)
+        new_pages[filename] = text
     return new_pages
 
-def update_pages(folder, new_pages):
-    for filename, text in new_pages.items():
+def save_files(folder, pages):
+    for filename, text in pages.items():
         path = os.path.join(folder, filename)
-        with open(path, "w") as file:
-            file.write(text)
+        with open(path, 'w') as f:
+            f.write(text)
 
 if __name__ == '__main__':
-    patterns = []
-    pages = get_pages(PATH)
-    if os.path.isfile(LINKS):
-        with open(LINKS, 'r') as f:
-            for line in f:
-                patterns.append(line.rstrip())
-    else:
-        patterns = get_names(pages)
-
-    new_pages = add_links(pages, patterns)
-
-    update_pages(PATH, new_pages)
+    pages = get_pages(PAGES_DIR)
+    concepts = get_concepts(CONCEPTS_PATH)
+    new_pages = add_links(pages, concepts)
+    save_files(PAGES_DIR, new_pages)
